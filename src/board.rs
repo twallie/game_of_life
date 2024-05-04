@@ -27,12 +27,16 @@ impl Board {
         println!("");
         for row in 0..BOARD_HEIGHT {
             let slice1 = (self.bytes >> (BOARD_LENGTH * row)) & 0b11111111;
-            println!("{}\t{:08b}", row, slice1);
+            println!("{}  {:08b}", 7 - row, slice1);
         }
+
+        println!("\n   01234567");
     }
 
     pub fn set_coordinate(&mut self, x: usize, y: usize) {
-        let offset = (y * 8) + x;
+        let x_offset = 7 - x;
+        let y_offset = 7 - y;
+        let offset = (y_offset * 8) + x_offset;
         self.set_with_offset(offset);
     }
 }
