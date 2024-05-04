@@ -10,7 +10,7 @@ impl Board {
     }
 
     pub fn set_with_offset(&mut self, offset: usize) {
-        self.bytes |= (0b1 << offset);
+        self.bytes |= 0b1 << offset;
     }
 
     pub fn print_bytes(&self) {
