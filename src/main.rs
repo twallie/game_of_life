@@ -4,14 +4,8 @@ mod board;
 
 fn main() {
     let mut board = Board::new();
-    
-    for i in 0..64 {
-        if i % 2 == 1 {
-            continue;
-        }
 
-        board.set_with_offset(i);
-    }
-
-    board.print_bytes();
+    board.set_coordinate(0, 0);
+    board.set_coordinate(7, 7);
+    board.print_rows();
 }
