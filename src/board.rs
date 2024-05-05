@@ -16,7 +16,7 @@ impl Board {
         self.bytes |= 0b1 << offset;
     }
 
-    fn is_set(&self, offset: usize) -> bool {
+    fn is_offset_set(&self, offset: usize) -> bool {
         let mask = 0b1;
         let shifted = self.bytes >> offset;
         return (shifted & mask) != 0;
@@ -29,9 +29,9 @@ impl Board {
         }
     }
 
-    pub fn is_coordinate_alive(&self, x: usize, y: usize) -> bool {
+    pub fn is_coordinate_set(&self, x: usize, y: usize) -> bool {
         let offset = Board::calculate_coordinate_offset(x, y); 
-        return self.is_set(offset);
+        return self.is_offset_set(offset);
     }
 
     fn calculate_coordinate_offset(x: usize, y: usize) -> usize {
