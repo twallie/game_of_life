@@ -12,31 +12,36 @@ impl Board {
         }
     }
     
-    pub fn set_with_offset(&mut self, offset: usize) {
+    fn set_with_offset(&mut self, offset: usize) {
         self.bytes |= 0b1 << offset;
     }
 
-    pub fn print_bytes(&self) {
-        println!("{:064b}", self.bytes);
-        let slice1 = self.bytes & 0b11111111;
-        println!("{:08b}", slice1);
+    fn is_set(&self, offset: usize) -> bool {
+        let mask = 0b1;
+        let shifted = self.bytes >> offset;
+        return (shifted & mask) != 0;
     }
 
     pub fn print_rows(&self) {
-        println!("{:064b}", self.bytes);
-        println!("");
         for row in 0..BOARD_HEIGHT {
             let slice1 = (self.bytes >> (BOARD_LENGTH * row)) & 0b11111111;
-            println!("{}  {:08b}", 7 - row, slice1);
+            println!("{:08b}", slice1);
         }
+    }
 
-        println!("\n   01234567");
+    pub fn is_coordinate_alive(&self, x: usize, y: usize) -> bool {
+        let offset = Board::calculate_coordinate_offset(x, y); 
+        return self.is_set(offset);
+    }
+
+    fn calculate_coordinate_offset(x: usize, y: usize) -> usize {
+        let x_offset = 7 - x;
+        let y_offset = 7 - y;
+        return (y_offset * 8) + x_offset;
     }
 
     pub fn set_coordinate(&mut self, x: usize, y: usize) {
-        let x_offset = 7 - x;
-        let y_offset = 7 - y;
-        let offset = (y_offset * 8) + x_offset;
+        let offset = Board::calculate_coordinate_offset(x, y);
         self.set_with_offset(offset);
     }
 }
