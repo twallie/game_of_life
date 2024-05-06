@@ -78,5 +78,4 @@ impl Board {
     fn is_out_of_bounds(x: usize, y: usize) -> bool {
         x >= BOARD_LENGTH || y >= BOARD_HEIGHT
     }
-
 }
