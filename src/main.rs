@@ -1,15 +1,17 @@
 use board::Board;
 
 mod board;
+mod errors;
 
 fn main() {
     let mut board = Board::new();
 
-    board.set_coordinate(0, 0);
-    board.set_coordinate(1, 0);
-    board.set_coordinate(1, 1);
+    match board.set_coordinate(100, 100) {
+        Ok(_) => (),
+        Err(e) => println!("{}", e),
+    };
 
-    println!("\n{}\n", board.is_coordinate_set(1, 1));
+    println!("\n{}\n", board.is_coordinate_set(1, 1).unwrap());
 
     board.print_rows();
 }
