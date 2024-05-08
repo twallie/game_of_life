@@ -3,6 +3,13 @@ use crate::errors::OutOfBoundsError;
 const BOARD_LENGTH: usize = 8;
 const BOARD_HEIGHT: usize = 8;
 
+pub enum Direction {
+    UP,
+    RIGHT,
+    DOWN,
+    LEFT
+}
+
 pub struct Board {
     bytes: u64
 }
@@ -11,6 +18,23 @@ impl Board {
     pub fn new() -> Board {
         return Board {
             bytes: 0b0
+        }
+    }
+
+    pub fn is_neighbor_set(&self, x: usize, y: usize, direction: Direction) -> Option<bool> {
+        match direction {
+            Direction::UP => {
+                self.is_coordinate_set(x, y + 1)
+            },
+            Direction::RIGHT => {
+                self.is_coordinate_set(x + 1, y)
+            },
+            Direction::DOWN => {
+                self.is_coordinate_set(x, y - 1)
+            },
+            Direction::LEFT => {
+                self.is_coordinate_set(x - 1, y)
+            },
         }
     }
 
@@ -74,7 +98,6 @@ impl Board {
         Some((shifted & mask) != 0)
     }
 
-
     fn print_row(&self, row: usize) {
         let slice1 = (self.bytes >> (BOARD_LENGTH * row)) & 0b11111111;
         println!("{:08b}", slice1);
@@ -90,7 +113,6 @@ impl Board {
         let offset = (y_offset * 8) + x_offset;
         Ok(offset)
     }
-
 
     fn is_out_of_bounds(x: usize, y: usize) -> bool {
         x >= BOARD_LENGTH || y >= BOARD_HEIGHT
