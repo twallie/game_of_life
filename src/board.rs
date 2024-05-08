@@ -21,6 +21,14 @@ impl Board {
         };
         self.set_with_offset(offset)
     }
+
+    pub fn unset_coordinate(&mut self, x: usize, y: usize) -> Result<(), OutOfBoundsError> {
+        let offset = match Board::calculate_coordinate_offset(x, y) {
+            Ok(v) => v,
+            Err(v) => return Err(v),
+        };
+        self.unset_with_offset(offset)
+    }
     
     pub fn is_coordinate_set(&self, x: usize, y: usize) -> Option<bool> {
         let offset = match Board::calculate_coordinate_offset(x, y) {
@@ -43,6 +51,15 @@ impl Board {
         }
 
         self.bytes |= 0b1 << offset;
+        Ok(())
+    }
+
+    fn unset_with_offset(&mut self, offset: usize) -> Result<(), OutOfBoundsError> {
+        if offset >= 64 {
+            return Err(OutOfBoundsError);
+        }
+
+        self.bytes &= !(1 << offset);
         Ok(())
     }
 

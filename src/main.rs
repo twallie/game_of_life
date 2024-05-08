@@ -6,12 +6,15 @@ mod errors;
 fn main() {
     let mut board = Board::new();
 
-    match board.set_coordinate(100, 100) {
-        Ok(_) => (),
-        Err(e) => println!("{}", e),
-    };
+    board.set_coordinate(1,1).unwrap();
+    board.set_coordinate(1,2).unwrap();
+    board.set_coordinate(0,1).unwrap();
 
-    println!("\n{}\n", board.is_coordinate_set(1, 1).unwrap());
+    println!("\n{}\n", board.is_coordinate_set(0,1).unwrap());
+    board.print_rows();
 
+    board.unset_coordinate(0,1).unwrap();
+
+    println!("\n{}\n", board.is_coordinate_set(0,1).unwrap());
     board.print_rows();
 }
