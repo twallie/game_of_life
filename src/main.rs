@@ -2,6 +2,8 @@ mod board;
 mod errors;
 mod life;
 
+use std::{thread, time};
+
 use crate::life::Life;
 
 fn main() {
@@ -13,8 +15,13 @@ fn main() {
 
     life.print_cells();
 
-    life.next();
-    println!("");
+    for _ in 0..10 {
+        print!("\x1B[2J");
+        let ten_millis = time::Duration::from_millis(1000);
+        thread::sleep(ten_millis);
 
-    life.print_cells();
+        life.next();
+        println!("");
+        life.print_cells();
+    }
 }

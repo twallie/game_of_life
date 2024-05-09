@@ -1,7 +1,16 @@
 use crate::{
     board::{
         Board, 
-        Direction::{UP, DOWN, LEFT, RIGHT}
+        Direction::{
+            Up,
+            UpRight,
+            Right,
+            DownRight,
+            Down,
+            DownLeft,
+            Left,
+            UpLeft
+        }
     }, 
     errors::OutOfBoundsError
 };
@@ -84,7 +93,16 @@ impl Life {
     fn find_number_of_cell_neighbors(&self, x: usize, y: usize) -> usize {
         let mut num = 0;
         
-        let check_order = [ UP, RIGHT, DOWN, LEFT ];
+        let check_order = [ 
+            Up, 
+            UpRight, 
+            Right, 
+            DownRight, 
+            Down, 
+            DownLeft, 
+            Left,
+            UpLeft
+        ];
         for direction in check_order {
             match self.board.is_neighbor_set(x, y, direction) {
                 Some(v) => {

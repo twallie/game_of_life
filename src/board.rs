@@ -3,11 +3,16 @@ use crate::errors::OutOfBoundsError;
 const BOARD_LENGTH: usize = 8;
 const BOARD_HEIGHT: usize = 8;
 
+#[derive(Debug)]
 pub enum Direction {
-    UP,
-    RIGHT,
-    DOWN,
-    LEFT
+    Up,
+    UpRight,
+    Right,
+    DownRight,
+    Down,
+    DownLeft,
+    Left,
+    UpLeft
 }
 
 pub struct Board {
@@ -23,29 +28,53 @@ impl Board {
 
     pub fn is_neighbor_set(&self, x: usize, y: usize, direction: Direction) -> Option<bool> {
         match direction {
-            Direction::UP => {
-                if y >= BOARD_HEIGHT {
+            Direction::Up => {
+                if y >= BOARD_HEIGHT - 1 {
                     return None;
                 }
                 self.is_coordinate_set(x, y + 1)
             },
-            Direction::RIGHT => {
-                if x >= BOARD_LENGTH {
+            Direction::Right => {
+                if x >= BOARD_LENGTH - 1 {
                     return None
                 }
                 self.is_coordinate_set(x + 1, y)
             },
-            Direction::DOWN => {
+            Direction::Down => {
                 if y <= 0 {
                     return None;
                 }
                 self.is_coordinate_set(x, y - 1)
             },
-            Direction::LEFT => {
+            Direction::Left => {
                 if x <= 0 {
                     return None;
                 }
                 self.is_coordinate_set(x - 1, y)
+            },
+            Direction::UpRight => {
+                if y >= BOARD_HEIGHT - 1 || x >= BOARD_LENGTH - 1 {
+                    return None;
+                }
+                self.is_coordinate_set(x + 1, y + 1)
+            },
+            Direction::DownRight => {
+                if y <= 0 || x >= BOARD_LENGTH - 1 {
+                    return None;
+                }
+                self.is_coordinate_set(x + 1, y - 1)
+            },
+            Direction::DownLeft => {
+                if y <= 0 || x <= 0 {
+                    return None;
+                }
+                self.is_coordinate_set(x - 1, y - 1)
+            },
+            Direction::UpLeft => {
+                if y >= BOARD_HEIGHT - 1 || x <= 0 {
+                    return None;
+                }
+                self.is_coordinate_set(x - 1, y + 1)
             },
         }
     }
