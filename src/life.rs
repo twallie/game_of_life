@@ -15,13 +15,13 @@ use crate::{
     errors::OutOfBoundsError
 };
 
-pub struct Life {
+pub struct LifeController {
     board: Board,
 }
 
-impl Life {
-    pub fn new() -> Life {
-        return Life {
+impl LifeController {
+    pub fn new() -> LifeController {
+        return LifeController {
             board: Board::new(),
         }
     }

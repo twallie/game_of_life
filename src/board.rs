@@ -99,7 +99,7 @@ impl Board {
     pub fn pretty_print(&self, alive: char, dead: char) {
         for y in 0..BOARD_HEIGHT {
             for x in 0..BOARD_LENGTH {
-                let is_set = match self.is_coordinate_set(
+                match self.is_coordinate_set(
                     x, 
                     BOARD_HEIGHT - 1 - y
                 ) {
@@ -114,16 +114,6 @@ impl Board {
             }
             print!("\n");
         }
-    }
-
-    pub fn print_rows(&self) {
-        for row in 0..BOARD_HEIGHT {
-            self.print_row(BOARD_HEIGHT - 1 - row);
-        }
-    }
-
-    fn print_row(&self, row: usize) {
-        println!("{:064b}", self.bytes[row]);
     }
 
     fn is_out_of_bounds(x: usize, y: usize) -> bool {

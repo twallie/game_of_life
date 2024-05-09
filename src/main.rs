@@ -4,9 +4,9 @@ mod life;
 
 use std::{thread, time};
 
-use crate::{life::Life, board::Board};
+use crate::life::LifeController;
 
-fn add_glider(life: &mut Life, origin_x: usize, origin_y: usize) {
+fn add_glider(life: &mut LifeController, origin_x: usize, origin_y: usize) {
     life.set_cell(1 + origin_x, 7 + origin_y).unwrap();
     life.set_cell(2 + origin_x, 6 + origin_y).unwrap();
     life.set_cell(0 + origin_x, 5 + origin_y).unwrap();
@@ -14,7 +14,7 @@ fn add_glider(life: &mut Life, origin_x: usize, origin_y: usize) {
     life.set_cell(2 + origin_x, 5 + origin_y).unwrap();
 }
 
-fn add_bee_hive(life: &mut Life, x: usize, y: usize) {
+fn add_bee_hive(life: &mut LifeController, x: usize, y: usize) {
     life.set_cell(1 + x, 3 + y).unwrap();
     life.set_cell(2 + x, 3 + y).unwrap();
     life.set_cell(0 + x, 2 + y).unwrap();
@@ -24,11 +24,11 @@ fn add_bee_hive(life: &mut Life, x: usize, y: usize) {
 }
 
 fn main() {
-    let mut life = Life::new();
+    let mut life = LifeController::new();
 
     // Glider
-    add_glider(&mut life, 0, 0);
     add_glider(&mut life, 5, 20);
+    add_glider(&mut life, 15, 15);
 
     // Bee Hive
     add_bee_hive(&mut life, 17, 10); 
