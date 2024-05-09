@@ -18,10 +18,10 @@ fn main() {
 
     life.print_cells();
 
+    let sleep_length_ms = time::Duration::from_millis(200);
     for _ in 0..9999 {
         print!("\x1B[2J");
-        let ten_millis = time::Duration::from_millis(700);
-        thread::sleep(ten_millis);
+        thread::sleep(sleep_length_ms);
 
         life.next();
         life.print_cells();
