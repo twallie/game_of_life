@@ -5,5 +5,10 @@ mod life;
 use crate::life::Life;
 
 fn main() {
-    let life = Life::new();
+    let mut life = Life::new();
+
+    life.set_cell(3, 3).unwrap();
+    life.set_cell(4, 3).unwrap();
+    life.set_cell(2, 3).unwrap();
+    life.print_cells();
 }
