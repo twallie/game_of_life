@@ -31,7 +31,7 @@ impl Life {
     }
 
     pub fn print_cells(&self) {
-        self.board.pretty_print('O', ' ');
+        self.board.pretty_print('O', '.');
     }
 
     pub fn next(&mut self) {

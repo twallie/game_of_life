@@ -6,15 +6,32 @@ use std::{thread, time};
 
 use crate::{life::Life, board::Board};
 
+fn add_glider(life: &mut Life, origin_x: usize, origin_y: usize) {
+    life.set_cell(1 + origin_x, 7 + origin_y).unwrap();
+    life.set_cell(2 + origin_x, 6 + origin_y).unwrap();
+    life.set_cell(0 + origin_x, 5 + origin_y).unwrap();
+    life.set_cell(1 + origin_x, 5 + origin_y).unwrap();
+    life.set_cell(2 + origin_x, 5 + origin_y).unwrap();
+}
+
+fn add_bee_hive(life: &mut Life, x: usize, y: usize) {
+    life.set_cell(1 + x, 3 + y).unwrap();
+    life.set_cell(2 + x, 3 + y).unwrap();
+    life.set_cell(0 + x, 2 + y).unwrap();
+    life.set_cell(1 + x, 1 + y).unwrap();
+    life.set_cell(2 + x, 1 + y).unwrap();
+    life.set_cell(3 + x, 2 + y).unwrap();
+}
+
 fn main() {
     let mut life = Life::new();
 
     // Glider
-    life.set_cell(2, 27).unwrap();
-    life.set_cell(3, 26).unwrap();
-    life.set_cell(1, 25).unwrap();
-    life.set_cell(2, 25).unwrap();
-    life.set_cell(3, 25).unwrap();
+    add_glider(&mut life, 0, 0);
+    add_glider(&mut life, 5, 20);
+
+    // Bee Hive
+    add_bee_hive(&mut life, 17, 10); 
 
     life.print_cells();
 
