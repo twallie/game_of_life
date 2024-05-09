@@ -1,7 +1,7 @@
 use crate::errors::OutOfBoundsError;
 
 const BOARD_LENGTH: usize = 64;
-const BOARD_HEIGHT: usize = 32;
+const BOARD_HEIGHT: usize = 37;
 
 #[derive(Debug)]
 pub enum Direction {

@@ -6,12 +6,14 @@ use std::{thread, time};
 
 use crate::life::LifeController;
 
+const SLEEP_LENGTH_MS: usize = 100;
+
 fn add_glider(life: &mut LifeController, origin_x: usize, origin_y: usize) {
-    life.set_cell(1 + origin_x, 7 + origin_y).unwrap();
-    life.set_cell(2 + origin_x, 6 + origin_y).unwrap();
-    life.set_cell(0 + origin_x, 5 + origin_y).unwrap();
-    life.set_cell(1 + origin_x, 5 + origin_y).unwrap();
-    life.set_cell(2 + origin_x, 5 + origin_y).unwrap();
+    life.set_cell(1 + origin_x, 2 + origin_y).unwrap();
+    life.set_cell(2 + origin_x, 1 + origin_y).unwrap();
+    life.set_cell(0 + origin_x, 0 + origin_y).unwrap();
+    life.set_cell(1 + origin_x, 0 + origin_y).unwrap();
+    life.set_cell(2 + origin_x, 0 + origin_y).unwrap();
 }
 
 fn add_bee_hive(life: &mut LifeController, x: usize, y: usize) {
@@ -27,15 +29,21 @@ fn main() {
     let mut life = LifeController::new();
 
     // Glider
-    add_glider(&mut life, 5, 20);
-    add_glider(&mut life, 15, 15);
+    add_glider(&mut life, 0, 25);
+    add_glider(&mut life, 0, 20);
+    add_glider(&mut life, 0, 15);
+    add_glider(&mut life, 0, 10);
+
+    add_glider(&mut life, 10, 25);
+    add_glider(&mut life, 10, 20);
+    add_glider(&mut life, 10, 15);
+    add_glider(&mut life, 10, 10);
 
     // Bee Hive
-    add_bee_hive(&mut life, 17, 10); 
 
     life.print_cells();
 
-    let sleep_length_ms = time::Duration::from_millis(200);
+    let sleep_length_ms = time::Duration::from_millis(SLEEP_LENGTH_MS as u64);
     for _ in 0..9999 {
         print!("\x1B[2J");
         thread::sleep(sleep_length_ms);
