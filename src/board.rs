@@ -24,15 +24,27 @@ impl Board {
     pub fn is_neighbor_set(&self, x: usize, y: usize, direction: Direction) -> Option<bool> {
         match direction {
             Direction::UP => {
+                if y >= BOARD_HEIGHT {
+                    return None;
+                }
                 self.is_coordinate_set(x, y + 1)
             },
             Direction::RIGHT => {
+                if x >= BOARD_LENGTH {
+                    return None
+                }
                 self.is_coordinate_set(x + 1, y)
             },
             Direction::DOWN => {
+                if y <= 0 {
+                    return None;
+                }
                 self.is_coordinate_set(x, y - 1)
             },
             Direction::LEFT => {
+                if x <= 0 {
+                    return None;
+                }
                 self.is_coordinate_set(x - 1, y)
             },
         }
