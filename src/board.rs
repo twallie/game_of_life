@@ -1,7 +1,7 @@
 use crate::errors::OutOfBoundsError;
 
-const BOARD_LENGTH: usize = 8;
-const BOARD_HEIGHT: usize = 8;
+const BOARD_LENGTH: usize = 64;
+const BOARD_HEIGHT: usize = 32;
 
 #[derive(Debug)]
 pub enum Direction {
@@ -16,13 +16,13 @@ pub enum Direction {
 }
 
 pub struct Board {
-    bytes: u64
+    bytes: [u64; BOARD_HEIGHT]
 }
 
 impl Board {
     pub fn new() -> Board {
         return Board {
-            bytes: 0b0
+            bytes: [0b0; BOARD_HEIGHT]
         }
     }
 
@@ -80,79 +80,50 @@ impl Board {
     }
 
     pub fn set_coordinate(&mut self, x: usize, y: usize) -> Result<(), OutOfBoundsError> {
-        let offset = match Board::calculate_coordinate_offset(x, y) {
-            Ok(v) => v,
-            Err(v) => return Err(v),
-        };
-        self.set_with_offset(offset)
+        if Board::is_out_of_bounds(x, y) {
+           return Err(OutOfBoundsError); 
+        }
+        self.bytes[y] |= 0b1 << 63 - x ;
+        Ok(())
     }
 
-    pub fn unset_coordinate(&mut self, x: usize, y: usize) -> Result<(), OutOfBoundsError> {
-        let offset = match Board::calculate_coordinate_offset(x, y) {
-            Ok(v) => v,
-            Err(v) => return Err(v),
-        };
-        self.unset_with_offset(offset)
-    }
-    
     pub fn is_coordinate_set(&self, x: usize, y: usize) -> Option<bool> {
-        let offset = match Board::calculate_coordinate_offset(x, y) {
-            Ok(v) => v,
-            Err(_) => return None,
-        };
+        if Board::is_out_of_bounds(x, y) {
+           return None; 
+        }
+        let row = self.bytes[y];
+        let byte = (row >> 63 - x) & 0b1;
+        Some(byte != 0)
+    }
 
-        return self.is_offset_set(offset);
+    pub fn pretty_print(&self, alive: char, dead: char) {
+        for y in 0..BOARD_HEIGHT {
+            for x in 0..BOARD_LENGTH {
+                let is_set = match self.is_coordinate_set(
+                    x, 
+                    BOARD_HEIGHT - 1 - y
+                ) {
+                    Some(v) => {
+                        match v {
+                            true => print!("{}", alive),
+                            false => print!("{}", dead)
+                        }
+                    },
+                    None => println!("!")
+                };
+            }
+            print!("\n");
+        }
     }
 
     pub fn print_rows(&self) {
         for row in 0..BOARD_HEIGHT {
-            self.print_row(row);
+            self.print_row(BOARD_HEIGHT - 1 - row);
         }
-    }
-
-    fn set_with_offset(&mut self, offset: usize) -> Result<(), OutOfBoundsError> {
-        if offset >= 64 {
-            return Err(OutOfBoundsError);
-        }
-
-        self.bytes |= 0b1 << offset;
-        Ok(())
-    }
-
-    fn unset_with_offset(&mut self, offset: usize) -> Result<(), OutOfBoundsError> {
-        if offset >= 64 {
-            return Err(OutOfBoundsError);
-        }
-
-        self.bytes &= !(1 << offset);
-        Ok(())
-    }
-
-    fn is_offset_set(&self, offset: usize) -> Option<bool> {
-        if offset >= 64 {
-            return None;
-        }
-
-        let mask = 0b1;
-        let shifted = self.bytes >> offset;
-        
-        Some((shifted & mask) != 0)
     }
 
     fn print_row(&self, row: usize) {
-        let slice1 = (self.bytes >> (BOARD_LENGTH * row)) & 0b11111111;
-        println!("{:08b}", slice1);
-    }
-
-    fn calculate_coordinate_offset(x: usize, y: usize) -> Result<usize, OutOfBoundsError> {
-        if Board::is_out_of_bounds(x, y) {
-            return Err(OutOfBoundsError)
-        }
-
-        let x_offset = 7 - x;
-        let y_offset = 7 - y;
-        let offset = (y_offset * 8) + x_offset;
-        Ok(offset)
+        println!("{:064b}", self.bytes[row]);
     }
 
     fn is_out_of_bounds(x: usize, y: usize) -> bool {

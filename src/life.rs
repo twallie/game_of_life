@@ -31,14 +31,14 @@ impl Life {
     }
 
     pub fn print_cells(&self) {
-        self.board.print_rows();
+        self.board.pretty_print('O', ' ');
     }
 
     pub fn next(&mut self) {
         let mut next_board = Board::new();
 
-        for y in 0..8 {
-            for x in 0..8 {
+        for y in 0..64 {
+            for x in 0..64 {
                 match self.should_cell_live(x, y) {
                     true => match next_board.set_coordinate(x, y) {
                         Ok(_) => (),
@@ -100,9 +100,10 @@ impl Life {
             DownRight, 
             Down, 
             DownLeft, 
-            Left,
+            Left, 
             UpLeft
         ];
+
         for direction in check_order {
             match self.board.is_neighbor_set(x, y, direction) {
                 Some(v) => {

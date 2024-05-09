@@ -4,17 +4,17 @@ mod life;
 
 use std::{thread, time};
 
-use crate::life::Life;
+use crate::{life::Life, board::Board};
 
 fn main() {
     let mut life = Life::new();
 
     // Glider
-    life.set_cell(2, 7).unwrap();
-    life.set_cell(3, 6).unwrap();
-    life.set_cell(1, 5).unwrap();
-    life.set_cell(2, 5).unwrap();
-    life.set_cell(3, 5).unwrap();
+    life.set_cell(2, 27).unwrap();
+    life.set_cell(3, 26).unwrap();
+    life.set_cell(1, 25).unwrap();
+    life.set_cell(2, 25).unwrap();
+    life.set_cell(3, 25).unwrap();
 
     life.print_cells();
 
