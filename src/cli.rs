@@ -1,4 +1,5 @@
-use std::io;
+use core::time;
+use std::{io, thread};
 
 use crate::{board::{BOARD_HEIGHT, BOARD_LENGTH}, life::LifeController};
 
@@ -43,6 +44,16 @@ impl CLIController {
             else if a == 'q' {
                 return;
             }
+        }
+    }
+
+    pub fn run(&mut self) {
+        loop {
+            self.print_with_highlight(999, 999);
+            let sleep_time = time::Duration::from_millis(100);
+            thread::sleep(sleep_time);
+            self.game.next();
+            print!("\x1B[2J");
         }
     }
 
