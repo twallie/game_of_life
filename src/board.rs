@@ -96,26 +96,6 @@ impl Board {
         Some(byte != 0)
     }
 
-    pub fn pretty_print(&self, alive: char, dead: char) {
-        for y in 0..BOARD_HEIGHT {
-            for x in 0..BOARD_LENGTH {
-                match self.is_coordinate_set(
-                    x, 
-                    BOARD_HEIGHT - 1 - y
-                ) {
-                    Some(v) => {
-                        match v {
-                            true => print!("{}", alive),
-                            false => print!("{}", dead)
-                        }
-                    },
-                    None => println!("!")
-                };
-            }
-            print!("\n");
-        }
-    }
-
     fn is_out_of_bounds(x: usize, y: usize) -> bool {
         x >= BOARD_LENGTH || y >= BOARD_HEIGHT
     }

@@ -1,5 +1,5 @@
 use core::time;
-use std::{io, thread};
+use std::thread;
 
 use crate::{board::{BOARD_HEIGHT, BOARD_LENGTH}, life::LifeController};
 
@@ -17,9 +17,13 @@ impl CLIController {
     pub fn edit_cells(&mut self) {
         let mut x = 0;
         let mut y = 0;
+        let mut error_message: &str = "";
 
         loop {
             print!("\x1B[2J");
+            if error_message.chars().count() > 0 {
+                println!("{error_message}");
+            }
             self.print_with_highlight(x, y);
             let inp = getch::Getch::new();
             let a = match inp.getch() {
@@ -27,7 +31,10 @@ impl CLIController {
                 Err(_) => todo!("Handle char parsing error"),
             };
             if a == 's' {
-                self.game.set_cell(x, y);
+                match self.game.set_cell(x, y) {
+                    Ok(_) => (),
+                    Err(_) => error_message = "Cell could not be set!",
+                };
             }
             else if a == 'l' && x + 1 < BOARD_LENGTH {
                 x = x + 1;
