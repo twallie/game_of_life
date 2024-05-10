@@ -28,8 +28,9 @@ fn add_bee_hive(life: &mut LifeController, x: usize, y: usize) {
 }
 
 fn main() {
-    let controller = CLIController::new();
+    let mut controller = CLIController::new();
     controller.print_with_highlight(0, 0);
+    controller.edit_cells();
 }
 
 /*

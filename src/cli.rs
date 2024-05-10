@@ -1,3 +1,5 @@
+use std::io;
+
 use crate::{board::{BOARD_HEIGHT, BOARD_LENGTH}, life::LifeController};
 
 pub struct CLIController {
@@ -8,6 +10,39 @@ impl CLIController {
     pub fn new() -> CLIController {
         return CLIController {
             game: LifeController::new()
+        }
+    }
+
+    pub fn edit_cells(&mut self) {
+        let mut x = 0;
+        let mut y = 0;
+
+        loop {
+            print!("\x1B[2J");
+            self.print_with_highlight(x, y);
+            let inp = getch::Getch::new();
+            let a = match inp.getch() {
+                Ok(v) => v as char,
+                Err(_) => todo!("Handle char parsing error"),
+            };
+            if a == 's' {
+                self.game.set_cell(x, y);
+            }
+            else if a == 'l' && x + 1 < BOARD_LENGTH {
+                x = x + 1;
+            }
+            else if a == 'h' && x > 0 {
+                x = x - 1;
+            }
+            else if a == 'k' && y < BOARD_HEIGHT - 1 {
+                y = y + 1;
+            }
+            else if a == 'j' && y > 0 {
+                y = y - 1;
+            }
+            else if a == 'q' {
+                return;
+            }
         }
     }
 
@@ -23,7 +58,7 @@ impl CLIController {
                             true => 'O',
                             false => '.'
                         };
-                        if x == highlight_x && y == highlight_y {
+                        if x == highlight_x && BOARD_HEIGHT - 1 - y == highlight_y {
                             print!("\x1b[7m{}\x1b[0m", char);  
                         } else {
                             print!("{}", char);
