@@ -11,14 +11,3 @@ fn main() {
     controller.edit_cells();
     controller.run();
 }
-
-/*
-DEMO THINGS
-    # Bee-Hive
-    life.set_cell(2, 3).unwrap();
-    life.set_cell(3, 3).unwrap();
-    life.set_cell(1, 2).unwrap();
-    life.set_cell(2, 1).unwrap();
-    life.set_cell(3, 1).unwrap();
-    life.set_cell(4, 2).unwrap();
-*/
