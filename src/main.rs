@@ -1,10 +1,12 @@
 mod board;
 mod errors;
 mod life;
+mod cli;
 
 use std::{thread, time};
 
 use crate::life::LifeController;
+use crate::cli::CLIController;
 
 const SLEEP_LENGTH_MS: usize = 100;
 
@@ -26,31 +28,8 @@ fn add_bee_hive(life: &mut LifeController, x: usize, y: usize) {
 }
 
 fn main() {
-    let mut life = LifeController::new();
-
-    // Glider
-    add_glider(&mut life, 0, 25);
-    add_glider(&mut life, 0, 20);
-    add_glider(&mut life, 0, 15);
-    add_glider(&mut life, 0, 10);
-
-    add_glider(&mut life, 10, 25);
-    add_glider(&mut life, 10, 20);
-    add_glider(&mut life, 10, 15);
-    add_glider(&mut life, 10, 10);
-
-    // Bee Hive
-
-    life.print_cells();
-
-    let sleep_length_ms = time::Duration::from_millis(SLEEP_LENGTH_MS as u64);
-    for _ in 0..9999 {
-        print!("\x1B[2J");
-        thread::sleep(sleep_length_ms);
-
-        life.next();
-        life.print_cells();
-    }
+    let controller = CLIController::new();
+    controller.print_with_highlight(0, 0);
 }
 
 /*

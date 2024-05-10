@@ -30,8 +30,8 @@ impl LifeController {
         self.board.set_coordinate(x, y)
     }
 
-    pub fn print_cells(&self) {
-        self.board.pretty_print('O', '.');
+    pub fn is_cell_alive(&self, x: usize, y: usize) -> Option<bool> {
+        self.board.is_coordinate_set(x, y)
     }
 
     pub fn next(&mut self) {
