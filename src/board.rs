@@ -1,7 +1,7 @@
 use crate::errors::OutOfBoundsError;
 
-const BOARD_LENGTH: usize = 64;
-const BOARD_HEIGHT: usize = 37;
+pub const BOARD_LENGTH: usize = 64;
+pub const BOARD_HEIGHT: usize = 37;
 
 #[derive(Debug)]
 pub enum Direction {
@@ -94,26 +94,6 @@ impl Board {
         let row = self.bytes[y];
         let byte = (row >> 63 - x) & 0b1;
         Some(byte != 0)
-    }
-
-    pub fn pretty_print(&self, alive: char, dead: char) {
-        for y in 0..BOARD_HEIGHT {
-            for x in 0..BOARD_LENGTH {
-                match self.is_coordinate_set(
-                    x, 
-                    BOARD_HEIGHT - 1 - y
-                ) {
-                    Some(v) => {
-                        match v {
-                            true => print!("{}", alive),
-                            false => print!("{}", dead)
-                        }
-                    },
-                    None => println!("!")
-                };
-            }
-            print!("\n");
-        }
     }
 
     fn is_out_of_bounds(x: usize, y: usize) -> bool {
